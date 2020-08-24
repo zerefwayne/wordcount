@@ -1,7 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 func main() {
-	fmt.Println("Word count!")
+
+	fileName := "shakespeare.txt"
+
+	fmt.Println("Reading from", fileName)
+
+	words, err := readTxtFile(fileName)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(len(words))
+
 }
