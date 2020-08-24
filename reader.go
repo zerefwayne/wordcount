@@ -2,7 +2,9 @@ package main
 
 import (
 	"bufio"
+	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -18,6 +20,11 @@ func readTxtFile(name string) ([]string, error) {
 
 	words := []string{}
 
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	for s.Scan() {
 
 		line := strings.TrimSpace(s.Text())
@@ -25,7 +32,11 @@ func readTxtFile(name string) ([]string, error) {
 		lineWords := strings.Split(line, " ")
 
 		for _, word := range lineWords {
-			words = append(words, word)
+			word = reg.ReplaceAllString(word, "")
+			word = strings.ToLower(word)
+			if len(word) > 0 {
+				words = append(words, word)
+			}
 		}
 
 	}
